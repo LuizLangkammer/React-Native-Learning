@@ -2,13 +2,17 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import params from '../params';
 
+
 export default (props)=>{
+
+    
+
     return (
         <View style={styles.container}>
-            <View style={styles.pole}/>
-            <View style={styles.flag}/>
-            <View style={styles.base1}/>
-            <View style={styles.base2}/>
+            <View style={[styles.pole, props.big ? styles.poleBig : null]}/>
+            <View style={[styles.flag, props.big ? styles.flagBig : null]}/>
+            <View style={[styles.base1, props.big ? styles.base1Big : null]}/>
+            <View style={[styles.base2, props.big ? styles.base2Big : null]}/>
         </View>
     )
 }
@@ -46,5 +50,27 @@ const styles = StyleSheet.create({
         backgroundColor: '#222',
         marginLeft: params.blockSize * 0.2,
         marginTop: params.blockSize * 0.55
+    },
+    flagBig: {
+        height: 10,
+        width: 14,
+        marginLeft: 3
+    },
+    poleBig: {
+        height: 28,
+        width: 4,
+        marginLeft: 16 
+    },
+    base1Big: {
+        height: 4,
+        width: 12,
+        marginLeft: 12,
+        marginTop: 20 
+    },
+    base2Big: {
+        height: 4,
+        width: 20,
+        marginLeft: 8,
+        marginTop: 24
     }
 })
