@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import params from '../params';
 
 export default (props)=>{
     return (
@@ -14,36 +15,36 @@ export default (props)=>{
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 2
+        marginTop: params.blockSize/10
     },
     flag: {
         position: 'absolute',
-        height: 5,
-        width: 6,
+        height: params.blockSize * 0.2,
+        width: params.blockSize * 0.25,
         backgroundColor: '#F22',
-        marginLeft: 3
+        marginLeft: params.blockSize/10
     },
     pole: {
         position: 'absolute',
-        height: 14,
-        width: 2,
+        height: params.blockSize * 0.45,
+        width: params.blockSize * 0.1,
         backgroundColor: '#222',
-        marginLeft: 9
+        marginLeft: params.blockSize * 0.35
     },
     base1: {
         position: 'absolute',
-        height: 2,
-        width: 6,
+        height: params.blockSize * 0.1,
+        width: params.blockSize * 0.3,
         backgroundColor: '#222',
-        marginLeft: 7,
-        marginTop: 10
+        marginLeft: params.blockSize * 0.25,
+        marginTop: params.blockSize * 0.45
     },
     base2: {
         position: 'absolute',
-        height: 2,
-        width: 10,
+        height: params.blockSize * 0.1,
+        width: params.blockSize * 0.4,
         backgroundColor: '#222',
-        marginLeft: 5,
-        marginTop: 12
+        marginLeft: params.blockSize * 0.2,
+        marginTop: params.blockSize * 0.55
     }
 })

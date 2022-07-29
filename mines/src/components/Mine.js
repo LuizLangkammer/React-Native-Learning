@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import params from '../params';
 
 export default (props)=>{
     return (
@@ -19,18 +20,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     coreMine: {
-        height: 14,
-        width: 14,
-        borderRadius: 10,
+        height: params.blockSize/2,
+        width: params.blockSize/2,
+        borderRadius: params.blockSize/3,
         backgroundColor: 'black',
         alignItems: 'center',
         justifyContent: 'center'
     },
     line: {
         position: 'absolute',
-        height: 3,
-        width: 20,
-        boderradius: 3,
+        height: params.blockSize/10,
+        width: 4*params.blockSize/6,
+        borderRadius: 2,
         backgroundColor: 'black'
     }
 })

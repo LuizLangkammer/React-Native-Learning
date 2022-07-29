@@ -15,7 +15,7 @@ const params = {
         const totalHeight = Dimensions.get("window").height;
         const avaliableHeight = totalHeight * (1 - this.headerRatio);
         return Math.floor(avaliableHeight / this.blockSize);
-    }
+    },
 }
 
 export default params;
