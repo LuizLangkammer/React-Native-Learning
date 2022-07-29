@@ -25,10 +25,33 @@ const spreadMines = (board, minesAmount) =>{
 
         if(!board[randomRow][randomColumn].mined){
             board[randomRow][randomColumn].mined = true;
+            board[randomRow][randomColumn].nearMines = 0;
             minesPlanted++;
+            setNearMines(randomRow, randomColumn, board);
         }
         
     }
+}
+
+const setNearMines = (selectedRow, selectedColumn, board) => {
+
+    const totalRows = board.length;
+    const totalColumns = board[0].length;
+
+    const rows = [selectedRow-1, selectedRow, selectedRow+1];
+    const columns = [selectedColumn-1, selectedColumn, selectedColumn+1];
+    rows.forEach((row)=>{
+        columns.forEach((column)=>{
+
+            if(row === selectedRow && column === selectedColumn)return; 
+            if(row < 0 || row >= totalRows)return; 
+            if(column < 0 || column >= totalColumns)return; 
+        
+            if(!board[row][column].mined){
+                board[row][column].nearMines++;
+            }
+        });
+    })
 }
 
 const createMineBoard = (rows, columns, minesAmount) => {
