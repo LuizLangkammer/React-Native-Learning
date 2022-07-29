@@ -31,10 +31,10 @@ const spreadMines = (board, minesAmount) =>{
     }
 }
 
-const createMineBord = (rows, columns, minesAmount) => {
+const createMineBoard = (rows, columns, minesAmount) => {
     const board  = createBoard(rows, columns);
     spreadMines(board, minesAmount);
     return board;
 }
 
-export { createMineBord }
+export { createMineBoard }
