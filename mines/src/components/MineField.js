@@ -6,7 +6,9 @@ import Field from './Field';
 export default (props) => {
     const fields = props.board.map((row, r) => {
         const columns = row.map((field, c) => {
-            return <Field {...field} key={`${c}`}/>
+            return <Field {...field} key={`${c}`}
+                    onOpen={() => props.onOpenField(r,c)}
+                    onFlag={() => props.onFlagField(r,c)}/>
         });
         return <View style={styles.row} key={`${r}`}>{columns}</View>
     });
