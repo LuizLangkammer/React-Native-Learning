@@ -1,26 +1,30 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { View, Text } from 'react-native';
-import Icon  from 'react-native-vector-icons/FontAwesome';
+import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import commonStyles from '../commonStyles';
 
 import moment from 'moment';
 import 'moment/locale/pt-br';
 
 
-export default (props)=>{
+export default (props) => {
 
 
-    const doneOrNotStyle = props.doneAt != null ? {textDecorationLine: 'line-through'} : {}
+    const doneOrNotStyle = props.doneAt != null ? { textDecorationLine: 'line-through' } : {}
     const date = props.doneAt ? props.doneAt : props.estimatedAt
     const formatedDate = moment(props.estimatedAt).locale('pt-br')
         .format('ddd, D [de] MMMM');
 
     return (
         <View style={styles.container}>
-            <View style={styles.checkContainer}>
-                {getCheckView(props.doneAt)}
-            </View>
+            <TouchableWithoutFeedback
+                onPress={() => props.toggleTask(props.id)}
+            >
+                <View style={styles.checkContainer}>
+                    {getCheckView(props.doneAt)}
+                </View>
+            </TouchableWithoutFeedback>
             <View>
                 <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
                 <Text style={styles.date}>{formatedDate}</Text>
@@ -31,8 +35,8 @@ export default (props)=>{
 
 }
 
-function getCheckView(doneAt){
-    if(doneAt != null){
+function getCheckView(doneAt) {
+    if (doneAt != null) {
         return (
             <View style={styles.done}>
                 <Icon name='check' size={15} color='#FFF'></Icon>
@@ -79,6 +83,6 @@ const styles = StyleSheet.create({
     },
     date: {
         color: commonStyles.colors.subText,
-        fontSize: 14
+        fontSize: 14,
     }
 })
