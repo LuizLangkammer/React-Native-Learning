@@ -1,12 +1,30 @@
-import React from 'react-native';
-import { View, ImageBackground, StyleSheet } from 'react-native';
+import React, { FlatList } from 'react-native';
+import { View, ImageBackground, StyleSheet, Text } from 'react-native';
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import todayImage from '../../assets/imgs/today.jpg';
-import commonStyles from '../commonStyles'
+import commonStyles from '../commonStyles';
+import Task from '../components/Task';
+import { useState } from 'react';
+
 
 export default (props)=>{
 
+    const [tasks, setTasks] = useState([
+        {
+            id: Math.random(), 
+            desc: "Estudar React", 
+            estimateAt: new Date(), 
+            doneAt: new Date()
+        },
+        {
+            id: Math.random(), 
+            desc: "Codar React", 
+            estimateAt: new Date(), 
+            doneAt: null
+        },
+        
+    ])
 
     const today = moment().locale('pt-br').format('ddd, D [de] MMMM');
 
@@ -19,7 +37,12 @@ export default (props)=>{
             </View>
             </ImageBackground>
             <View style={styles.taskList}>
-                <Text>Opa</Text>
+                <FlatList
+                    data={tasks}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem= {({item}) => <Task {...item}/>}
+                />
+
             </View>
         </View>
     )
@@ -39,17 +62,14 @@ const styles = StyleSheet.create({
     titleBar: {
         flex: 1,
         justifyContent: 'flex-end',
-        alignItems: 'flex-end'
     },
     title:{
-        fontFamily: commonStyles.fontFamily,
         color: commonStyles.colors.secundary,
         fontSize: 50,
         marginLeft: 20,
         marginBottom: 20
     },
     subtitle: {
-        fontFamily: commonStyles.fontFamily,
         color: commonStyles.colors.secundary,
         fontSize: 20,
         marginLeft: 20,
