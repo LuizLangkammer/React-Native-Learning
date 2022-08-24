@@ -5,6 +5,7 @@ import 'moment/locale/pt-br';
 import todayImage from '../../assets/imgs/today.jpg';
 import commonStyles from '../commonStyles';
 import Task from '../components/Task';
+import AddTask from './AddTask';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
@@ -27,10 +28,12 @@ export default (props) => {
         },
 
     ]);
-    const [showDoneTasks, setShowDoneTasks] = useState(false);
+    const [showDoneTasks, setShowDoneTasks] = useState(true);
     const [visibleTasks, setVisibleTasks] = useState([]);
+    const [showModal, setShowModal] = useState(true);
+
     
-    //Effect
+    //Effect ==================================================================================
     useEffect(() => filterTasks(),[showDoneTasks, tasks]);
 
 
@@ -64,6 +67,7 @@ export default (props) => {
 
     return (
         <View style={styles.container}>
+            <AddTask  isVisible={showModal} onCancel={()=>{setShowModal(false)}} />
             <ImageBackground source={todayImage} style={styles.background}>
                 <View style={styles.iconBar}>
                     <TouchableOpacity
