@@ -30,7 +30,7 @@ export default (props) => {
     ]);
     const [showDoneTasks, setShowDoneTasks] = useState(true);
     const [visibleTasks, setVisibleTasks] = useState([]);
-    const [showModal, setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(false);
 
     
     //Effect ==================================================================================
@@ -91,8 +91,16 @@ export default (props) => {
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => <Task {...item} toggleTask={toggleTask} />}
                 />
-
             </View>
+            <TouchableOpacity 
+                style={styles.addButton}
+                onPress={() => setShowModal(true)}
+                activeOpacity={0.7}
+            >
+                <Icon name="plus" size={20}
+                    color={commonStyles.colors.secundary}    
+                />
+            </TouchableOpacity>
         </View>
     )
 
@@ -129,5 +137,16 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         justifyContent: 'flex-end',
         marginTop: 40
+    },
+    addButton: {
+        position: 'absolute',
+        right: 30,
+        bottom: 30,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: commonStyles.colors.today,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
