@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ImageBackground, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, ImageBackground, StyleSheet, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import todayImage from '../../assets/imgs/today.jpg';
@@ -65,9 +65,30 @@ export default (props) => {
         setVisibleTasks(visibleTasksLocal);
     }
 
+    const addTask = (newTask) => {
+        if(!newTask.desc || !newTask.desc.trim()) {
+            Alert.alert('Dados Inválidos', 'Descrição não informada');
+            return;
+        };
+
+        const tasksLocal = [...tasks];
+
+        tasksLocal.push({
+            id: Math.random().toString(),
+            desc: newTask.desc,
+            estimatedAt: newTask.date,
+            doneAt: null
+        });
+
+        setShowModal(false);
+        setTasks(tasksLocal);
+        
+        
+    }
+
     return (
         <View style={styles.container}>
-            <AddTask  isVisible={showModal} onCancel={()=>{setShowModal(false)}} />
+            <AddTask  isVisible={showModal} onCancel={()=>{setShowModal(false)}} onSave={addTask}/>
             <ImageBackground source={todayImage} style={styles.background}>
                 <View style={styles.iconBar}>
                     <TouchableOpacity
