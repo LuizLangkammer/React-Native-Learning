@@ -2,40 +2,46 @@ import React, { useState, useEffect } from 'react';
 import { View, ImageBackground, StyleSheet, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import todayImage from '../../assets/imgs/today.jpg';
 import commonStyles from '../commonStyles';
 import Task from '../components/Task';
 import AddTask from './AddTask';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
-
+const defaultConfig = {
+    tasks: [],
+    showDoneTasks: false,
+    visibleTasks: [],
+    showModal: false
+}
 
 export default (props) => {
 
     //States ===================================================================================
-    const [tasks, setTasks] = useState([
-        {
-            id: 1,
-            desc: "Estudar React",
-            estimateAt: new Date(),
-            doneAt: new Date()
-        },
-        {
-            id: 2,
-            desc: "Codar React",
-            estimateAt: new Date(),
-            doneAt: null
-        },
-
-    ]);
-    const [showDoneTasks, setShowDoneTasks] = useState(true);
-    const [visibleTasks, setVisibleTasks] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const [tasks, setTasks] = useState(defaultConfig.tasks);
+    const [showDoneTasks, setShowDoneTasks] = useState(defaultConfig.showDoneTasks);
+    const [visibleTasks, setVisibleTasks] = useState(defaultConfig.visibleTasks);
+    const [showModal, setShowModal] = useState(defaultConfig.showModal);
 
 
     //Effect ==================================================================================
+    useEffect(() => {
+        const initialize = async() => {
+            const stateString = await AsyncStorage.getItem("state");
+            const state = JSON.parse(stateString) || defaultConfig;
+            setTasks(state.tasks);
+            setVisibleTasks(state.visibleTasks);
+            setShowDoneTasks(state.showDoneTasks);
+            setShowModal(state.showModal)
+        }
+        initialize()
+    },[]);
     useEffect(() => filterTasks(), [showDoneTasks, tasks]);
 
+
+    
 
     const today = moment().locale('pt-br').format('ddd, D [de] MMMM');
 
@@ -63,6 +69,13 @@ export default (props) => {
             })
         }
         setVisibleTasks(visibleTasksLocal);
+        
+        AsyncStorage.setItem('state', JSON.stringify({
+            tasks,
+            showDoneTasks,
+            showModal,
+            visibleTasks
+        }));
     }
 
     const addTask = (newTask) => {
