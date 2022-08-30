@@ -31,6 +31,11 @@ export default (props) => {
         const initialize = async() => {
             const stateString = await AsyncStorage.getItem("state");
             const state = JSON.parse(stateString) || defaultConfig;
+
+            state.tasks.forEach((task) => {
+                task.estimatedAt = new Date(task.estimatedAt)
+            })
+
             setTasks(state.tasks);
             setVisibleTasks(state.visibleTasks);
             setShowDoneTasks(state.showDoneTasks);
@@ -68,6 +73,7 @@ export default (props) => {
                 return !task.doneAt;
             })
         }
+       
         setVisibleTasks(visibleTasksLocal);
         
         AsyncStorage.setItem('state', JSON.stringify({
@@ -94,6 +100,21 @@ export default (props) => {
         });
 
         setShowModal(false);
+        tasksLocal.sort((a, b) => {
+            const aDate = a.estimatedAt;
+            const bDate = b.estimatedAt
+            if(aDate < bDate){
+                return -1
+            }
+            if(aDate > bDate){
+
+                return 1
+            }
+          
+
+            return 0 
+        })
+        console.log(tasksLocal)
         setTasks(tasksLocal);
     }
 
@@ -120,7 +141,7 @@ export default (props) => {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.titleBar}>
-                    <Text style={styles.title}>Hoje</Text>
+                    <Text style={styles.title}>Bom dia</Text>
                     <Text style={styles.subtitle}>{today}</Text>
                 </View>
             </ImageBackground>
