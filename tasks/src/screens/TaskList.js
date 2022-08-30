@@ -32,14 +32,14 @@ export default (props) => {
     const [visibleTasks, setVisibleTasks] = useState([]);
     const [showModal, setShowModal] = useState(false);
 
-    
+
     //Effect ==================================================================================
-    useEffect(() => filterTasks(),[showDoneTasks, tasks]);
+    useEffect(() => filterTasks(), [showDoneTasks, tasks]);
 
 
     const today = moment().locale('pt-br').format('ddd, D [de] MMMM');
 
-    const toggleTask = (taskId) => {
+    const onToggleTask = (taskId) => {
         const tasksLocal = [...tasks];
         tasksLocal.forEach((task) => {
             if (task.id === taskId) {
@@ -54,10 +54,10 @@ export default (props) => {
     }
 
     const filterTasks = () => {
-        let visibleTasksLocal = [] 
-        if(showDoneTasks){
+        let visibleTasksLocal = []
+        if (showDoneTasks) {
             visibleTasksLocal = [...tasks];
-        }else{
+        } else {
             visibleTasksLocal = tasks.filter((task) => {
                 return !task.doneAt;
             })
@@ -66,7 +66,7 @@ export default (props) => {
     }
 
     const addTask = (newTask) => {
-        if(!newTask.desc || !newTask.desc.trim()) {
+        if (!newTask.desc || !newTask.desc.trim()) {
             Alert.alert('Dados Inválidos', 'Descrição não informada');
             return;
         };
@@ -82,23 +82,28 @@ export default (props) => {
 
         setShowModal(false);
         setTasks(tasksLocal);
-        
-        
+    }
+
+    const deleteTask = (taskId) => {
+        const tasksLocal = tasks.filter((task) => {
+            return task.id !== taskId;
+        });
+        setTasks(tasksLocal);
     }
 
     return (
         <View style={styles.container}>
-            <AddTask  isVisible={showModal} onCancel={()=>{setShowModal(false)}} onSave={addTask}/>
+            <AddTask isVisible={showModal} onCancel={() => { setShowModal(false) }} onSave={addTask} />
             <ImageBackground source={todayImage} style={styles.background}>
                 <View style={styles.iconBar}>
                     <TouchableOpacity
                         onPress={toggleFilter}
                     >
-                        <Icon 
+                        <Icon
                             name={showDoneTasks ? "eye" : "eye-slash"}
                             size={20}
                             color={commonStyles.colors.secundary}
-                            ></Icon>
+                        ></Icon>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.titleBar}>
@@ -110,16 +115,16 @@ export default (props) => {
                 <FlatList
                     data={visibleTasks}
                     keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => <Task {...item} toggleTask={toggleTask} />}
+                    renderItem={({ item }) => <Task {...item} onToggleTask={onToggleTask} onDelete={deleteTask} />}
                 />
             </View>
-            <TouchableOpacity 
+            <TouchableOpacity
                 style={styles.addButton}
                 onPress={() => setShowModal(true)}
                 activeOpacity={0.7}
             >
                 <Icon name="plus" size={20}
-                    color={commonStyles.colors.secundary}    
+                    color={commonStyles.colors.secundary}
                 />
             </TouchableOpacity>
         </View>
