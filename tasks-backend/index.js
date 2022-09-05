@@ -1,3 +1,4 @@
+const { dbPassword, dbUser, dbName } = require('./.env');
 
 //config inicial
 const express = require('express')
@@ -16,7 +17,7 @@ consign()
 
 
 mongoose.connect(
-    'mongodb+srv://adminbatrix:batrix@apicluster.rcscbmb.mongodb.net/tasks?retryWrites=true&w=majority'
+    `mongodb+srv://${dbUser}:${dbPassword}@apicluster.rcscbmb.mongodb.net/${dbName}?retryWrites=true&w=majority`
 )
 .then(() => {
     console.log("MongoDb connected!");
