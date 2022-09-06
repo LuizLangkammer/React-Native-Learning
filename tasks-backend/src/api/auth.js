@@ -11,7 +11,7 @@ module.exports = (app) => {
             return res.status(400).send('Dados Incompletos');
         }
 
-        const user = Users.findOne({email: req.body.email})
+        const user = await Users.findOne({email: req.body.email})
             .then((result) => {
                 return result
             })
@@ -21,18 +21,18 @@ module.exports = (app) => {
             });
         
         if(!user) return;
-
+       
         bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
             if(err || !isMatch){
-                return res.status(404).send('usuário ou senha inválidos');
+                return res.status(404).send('Usuário ou senha inválidos');
             }
 
             const payload = {
-                id: user._id,
+                _id: user._id,
                 email: user.email
             }
 
-            res.json({
+            res.status(200).send({
                 name: user.name,
                 email: user.email,
                 token: jwt.encode(payload, authSecret)
